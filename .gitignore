@@ -1,0 +1,29 @@
+# Secrets
+.env
+.env.*
+config.json
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+
+# Node
+node_modules/
+
+# Runtime / regeneratable
+data/*.db
+data/*.db-*
+logs/
+output/*
+!output/.gitkeep
+!output/play_styles_web_20260708.json
+
+# Editor
+.cursor/
+.vscode/
+.specstory/
+.DS_Store
+*.swp

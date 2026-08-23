@@ -1,0 +1,198 @@
+You are an OpenClaw browser agent building FULL match records from HKJC football results.
+
+Site: https://bet.hkjc.com/ch/football/results#search
+Output: /mnt/d/openclaw/hkjc-football-agent/output/june-full-records.json
+Existing list (optional): /mnt/d/openclaw/hkjc-football-agent/output/matches.json
+
+HARD RULES:
+1. browser action=tabs FIRST. Use CDP targetId (hex). NEVER t1.
+2. NEVER scroll. Pagination via .pagination-box clicks only.
+3. Stay on bet.hkjc.com.
+4. Use act kind=evaluate with JS below. Re-snapshot after each click.
+5. Save JSON after EVERY match (incremental update) so partial runs are kept.
+
+MARKETS TO RECORD (最後賠率 closing odds — ALL lines/odds in each section):
+- 主客和 (1X2)
+- 半場主客和 (HT 1X2)
+- 讓球 (handicap FT)
+- 半場讓球 (handicap HT)
+- 入球大細 (goal O/U FT)
+- 半場入球大細 (goal O/U HT)
+- 開出角球大細 (corner O/U FT)
+- 半場開出角球大細 (corner O/U HT)
+
+DO NOT RECORD:
+- Any section whose title contains 即場 or 同場過關
+- 即場投注, 同場過關, live/in-play variants
+
+PHASE 1 — Load June match list
+A) Open https://bet.hkjc.com/ch/football/results#search
+B) Search date range (evaluate):
+
+() => {
+  const DATE_RANGE = '01/06/2026 - 30/06/2026';
+  const input = document.querySelector('input.date-input') || document.querySelector('input.date-input.matchResults_dateSelect_selected_text');
+  if (!input) return { ok: false, error: 'no date input' };
+  input.value = DATE_RANGE;
+  input.dispatchEvent(new Event('input', { bubbles: true }));
+  input.dispatchEvent(new Event('change', { bubbles: true }));
+  const btn = document.querySelector('[data-testid="matchResults_search_button"]') || [...document.querySelectorAll('button')].find(b => b.innerText.trim() === '搜尋');
+  if (!btn) return { ok: false, error: 'no search btn' };
+  btn.click();
+  return { ok: true, date: DATE_RANGE };
+}
+
+C) Paginate all pages — scrape index (evaluate):
+
+() => {
+  const rows = [];
+  document.querySelectorAll('.fb-results-match-results .table-row').forEach(row => {
+    if (row.classList.contains('table-header')) return;
+    const cells = row.querySelectorAll('.table-cell');
+    if (cells.length < 6) return;
+    const match_id = cells[1]?.innerText?.trim();
+    if (!match_id?.startsWith('FB')) return;
+    const leagueImg = cells[2]?.querySelector('img');
+    rows.push({
+      date: cells[0].innerText.trim(),
+      match_id,
+      competition: leagueImg?.getAttribute('alt') || leagueImg?.title || '',
+      teams: cells[3].innerText.trim(),
+      ht_score: cells[4].innerText.trim(),
+      ft_score: cells[5].innerText.trim()
+    });
+  });
+  return rows;
+}
+
+Pagination click page N:
+(n) => {
+  const box = document.querySelector('.pagination-box');
+  if (!box) return { ok: false };
+  const t = Array.from(box.children).find(el => el.innerText.trim() === String(n));
+  if (t) { t.click(); return { ok: true, page: n }; }
+  return { ok: false };
+}
+
+Collect ALL match_ids across pages into matchIndex array.
+If runtime MAX_MATCHES is set, process only first N matches.
+
+PHASE 2 — For EACH match in matchIndex (process in order)
+
+2a) Ensure match row visible (re-search + paginate if needed). Click 詳細賽果 for corners:
+
+(matchId) => {
+  for (const row of document.querySelectorAll('.fb-results-match-results .table-row')) {
+    const cells = row.querySelectorAll('.table-cell');
+    if (cells[1]?.innerText?.trim() !== matchId) continue;
+    for (const btn of row.querySelectorAll('.detail-cell .detail-btn')) {
+      if (btn.innerText.trim() !== '%') { btn.click(); return { ok: true, action: 'detail', matchId }; }
+    }
+  }
+  return { ok: false, error: 'detail btn not found', matchId };
+}
+
+Snapshot modal. Extract corners via evaluate:
+
+() => {
+  const text = document.body.innerText;
+  const parseCorner = (label) => {
+    const re = new RegExp(label + '[\\s\\S]{0,80}?(\\d+)\\s*\\(\\s*(\\d+)\\s*:\\s*(\\d+)\\s*\\)');
+    const m = text.match(re) || text.match(new RegExp(label + '[\\s\\S]{0,40}?(\\d+)\\s*\\(\\s*(\\d+)\\s*:\\s*(\\d+)\\s*\\)'));
+    if (!m) return null;
+    return { total: +m[1], home: +m[2], away: +m[3] };
+  };
+  return {
+    half_time_corners: parseCorner('半場角球') || parseCorner('半场角球'),
+    full_time_corners: parseCorner('全場角球') || parseCorner('全场角球')
+  };
+}
+
+Close modal: evaluate click X/close or press Escape, or click outside.
+
+2b) Click % (最後賠率) for SAME matchId:
+
+(matchId) => {
+  for (const row of document.querySelectorAll('.fb-results-match-results .table-row')) {
+    const cells = row.querySelectorAll('.table-cell');
+    if (cells[1]?.innerText?.trim() !== matchId) continue;
+    for (const btn of row.querySelectorAll('.detail-cell .detail-btn')) {
+      if (btn.innerText.trim() === '%') { btn.click(); return { ok: true, action: 'odds', matchId }; }
+    }
+  }
+  return { ok: false, error: 'odds btn not found', matchId };
+}
+
+Extract odds (evaluate) — skip 即場 / 同場過關:
+
+() => {
+  const WANT = ['主客和','半場主客和','讓球','半場讓球','入球大細','半場入球大細','開出角球大細','半場開出角球大細'];
+  const SKIP = ['即場','同場過關'];
+  const out = {};
+  // Find section headers in odds panel (#detail or 最後賠率 area)
+  const root = document.querySelector('[class*="detail"]') || document.body;
+  const allText = document.body.innerText;
+  for (const name of WANT) {
+    if (SKIP.some(s => name.includes(s))) continue;
+    // Grab section: header name until next major header
+    const idx = allText.indexOf(name);
+    if (idx < 0) { out[name] = []; continue; }
+    const slice = allText.slice(idx, idx + 2500);
+    // skip if this header is 即場 variant
+    if (/即場/.test(slice.slice(0, name.length + 30))) continue;
+    const lines = [];
+    // lines like [8.5] 1.64 or -0.5/-1 2.01 or 主隊勝 1.64
+    const lineRe = /(\[[^\]]+\]|[-+]?\d+(?:\.\d+)?(?:\/[-+]?\d+(?:\.\d+)?)?)\s+(\d+\.\d+)/g;
+    let m;
+    while ((m = lineRe.exec(slice)) !== null) {
+      lines.push({ line: m[1], odds: parseFloat(m[2]) });
+    }
+    // Also capture 1X2 style: 主隊勝/和/客隊勝 with odds
+    if (name.includes('主客和')) {
+      const hda = [...slice.matchAll(/(主隊勝|和|客隊勝)[^\d]*(\d+\.\d+)/g)].map(x => ({ selection: x[1], odds: parseFloat(x[2]) }));
+      if (hda.length) lines.push(...hda.map(x => ({ line: x.selection, odds: x.odds })));
+    }
+    out[name] = lines;
+  }
+  return out;
+}
+
+Close odds panel (navigate back or close button).
+
+2c) Build match record object:
+
+{
+  "date": "...",
+  "match_id": "FB0120",
+  "competition": "世盃",
+  "teams": "克羅地亞 對 加納",
+  "scores": { "half_time": "1 : 0", "full_time": "2 : 1" },
+  "corners": {
+    "half_time": { "total": 4, "home": 2, "away": 2 },
+    "full_time": { "total": 7, "home": 3, "away": 4 }
+  },
+  "odds_closing": {
+    "主客和": [...],
+    "半場主客和": [...],
+    "讓球": [...],
+    "半場讓球": [...],
+    "入球大細": [...],
+    "半場入球大細": [...],
+    "開出角球大細": [...],
+    "半場開出角球大細": [...]
+  }
+}
+
+2d) Read existing june-full-records.json if present, upsert this match_id, write file back.
+
+PHASE 3 — Final save
+Write /mnt/d/openclaw/hkjc-football-agent/output/june-full-records.json:
+
+{
+  "date_range": "01/06/2026 - 30/06/2026",
+  "recorded_at": "<ISO timestamp>",
+  "match_count": N,
+  "matches": [ ... full records ... ]
+}
+
+Report: how many matches processed, how many had corners, how many had odds, sample one complete record.
