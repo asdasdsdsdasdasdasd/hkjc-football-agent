@@ -122,6 +122,9 @@ def main() -> int:
     live = sorted(cap_live_v31(revised), key=lambda r: -float(r.get("composite_score") or 0))
     args.out_dir.mkdir(parents=True, exist_ok=True)
     tag = ISO.replace("-", "")
+    revised_out = args.out_dir / f"tomorrow_{tag}_v32_revised.json"
+    revised_out.write_text(json.dumps(revised, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    print(f"revised ({len(revised)}) -> {revised_out}")
     out = args.out_dir / f"tomorrow_{tag}_v32_live.json"
     out.write_text(json.dumps(live, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(f"\nv3.2 LIVE ({len(live)}) -> {out}")
