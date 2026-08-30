@@ -23,6 +23,17 @@ from pipeline.betting.markets import DEFAULT_MARKET_KEYS, get_adapters
 from pipeline.betting.markets.team_ou import team_role_from_market
 from pipeline.betting.models.external_features import load_feature_map, merge_external_features
 from pipeline.betting.models.poisson_total import predict_match_mu, predict_side_probability, predict_team_mu, fit_poisson_total
+from pipeline.betting.models.dixon_coles import (
+    fit_dc_cached,
+    match_ref_date,
+    predict_mus,
+    predict_side_probability_dc,
+    predict_total_mu,
+)
+
+# Dixon-Coles engine validated out-of-sample 2026-07-24..08-28 (log-loss beats
+# poisson_total on HT goals 0.6642 vs 0.6720 and FT corners 0.7050 vs 0.7160).
+USE_DC_MODEL = True
 from pipeline.betting.recent_form import match_form_summary
 from pipeline.betting.recommend import load_target_matches
 from pipeline.betting.snapshots import latest_snapshot
@@ -420,18 +431,34 @@ def score_line(
     period = "half_time" if market.endswith("_ht") else "full_time" if stat else None
 
     if stat:
-        state = fit_poisson_total(train, stat=stat, period=period)
-        if state is None:
-            return None
-        team_role = team_role_from_market(market)
-        if team_role:
-            mu = predict_team_mu(state, match, team_role=team_role)
-            p_over = predict_side_probability(state, match, line_raw=opp.line, side="over", team_role=team_role)
-            p_under = predict_side_probability(state, match, line_raw=opp.line, side="under", team_role=team_role)
+        dc_state = None
+        if USE_DC_MODEL:
+            dc_state = fit_dc_cached(train, stat=stat, period=period, ref_date=match_ref_date(match))
+        if dc_state is not None:
+            team_role = team_role_from_market(market)
+            if team_role:
+                mus = predict_mus(dc_state, match)
+                mu = (mus[0] if team_role == "home" else mus[1]) if mus else None
+                p_over = predict_side_probability_dc(dc_state, match, line_raw=opp.line, side="over", team_role=team_role)
+                p_under = predict_side_probability_dc(dc_state, match, line_raw=opp.line, side="under", team_role=team_role)
+            else:
+                mu = predict_total_mu(dc_state, match)
+                p_over = predict_side_probability_dc(dc_state, match, line_raw=opp.line, side="over")
+                p_under = predict_side_probability_dc(dc_state, match, line_raw=opp.line, side="under")
+            state = None
         else:
-            mu = predict_match_mu(state, match)
-            p_over = predict_side_probability(state, match, line_raw=opp.line, side="over")
-            p_under = predict_side_probability(state, match, line_raw=opp.line, side="under")
+            state = fit_poisson_total(train, stat=stat, period=period)
+            if state is None:
+                return None
+            team_role = team_role_from_market(market)
+            if team_role:
+                mu = predict_team_mu(state, match, team_role=team_role)
+                p_over = predict_side_probability(state, match, line_raw=opp.line, side="over", team_role=team_role)
+                p_under = predict_side_probability(state, match, line_raw=opp.line, side="under", team_role=team_role)
+            else:
+                mu = predict_match_mu(state, match)
+                p_over = predict_side_probability(state, match, line_raw=opp.line, side="over")
+                p_under = predict_side_probability(state, match, line_raw=opp.line, side="under")
         if p_over >= p_under:
             model_side = "over"
             old_p = p_over if opp.side == "over" else p_under

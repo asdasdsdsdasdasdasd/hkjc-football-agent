@@ -1,1 +1,9 @@
+# Windows deploy
+#
+# Two ways:
+#   A) WSL2 — keep the Linux GPU llama-server, open the dashboard in Windows.
+#   B) Native Windows — Python + a Windows CUDA llama-server.exe.
+
 playwright>=1.40
+numpy>=1.26
+scipy>=1.11

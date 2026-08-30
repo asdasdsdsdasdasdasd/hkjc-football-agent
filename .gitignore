@@ -27,3 +27,8 @@ output/*
 .specstory/
 .DS_Store
 *.swp
+
+# Live desk runtime
+intel/
+odds-history/
+*.pid

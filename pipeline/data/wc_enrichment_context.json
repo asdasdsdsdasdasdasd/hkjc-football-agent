@@ -1,0 +1,85 @@
+{
+  "FB3018": {
+    "competition": "2026 FIFA World Cup · Round of 16 / 十六強",
+    "venue": "Lincoln Financial Field (Philadelphia Stadium), Philadelphia, USA（费城 · 林肯金融球场）",
+    "kickoff": "2026-07-04 17:00 ET / 21:00 GMT · 香港时间 2026-07-05 05:00",
+    "overview_zh": "本场为 **2026 美加墨世盃十六強**——**Paraguay（巴拉圭 / La Albirroja）** 在 Gustavo Alfaro 麾下刚在十六强淘汰 **德国**（Enciso 进球 + Gill 点球大战），再遇夺冠热门 **France（法国 / Les Bleus）**。法国小组赛全胜后 **3-0 横扫瑞典**，Mbappé 本届 **6 球**、Dembélé **4 球**、Olise **5 助攻** 状态火热。FIFA / Goal.com 称法国为 **heavy favourites**；但 1998 法国主场十六强曾靠 **Blanc 114' 金球** 才破巴拉圭，南美低位防反仍是 x-factor。",
+    "overview_en": "FIFA and Goal.com frame this as **favourites France vs resilient Paraguay** — Alfaro's low block vs Deschamps' elite front three. Winner faces **Canada or Morocco** in Boston (9 July). Referee: **Ilgiz Tantashev** (FotMob).",
+    "path_table": "| 球队 | 晋级路径 | 关键人物 |\n|------|----------|----------|\n| **Paraguay** | 爆冷淘汰德国 · Enciso + Gill 点球 | Enciso, Almirón, Gómez, Gill |\n| **France** | 小组全胜 · 3-0 瑞典 | Mbappé, Dembélé, Olise, Maignan |",
+    "h2h": "1998 世盃十六强法国 **1-0 加时**（Blanc 114' 历史首粒金球）；2006 友谊赛 1-0 法国。巴拉圭将复制 **compact 4-1-2-1-2 / 4-4-2 low block**，法国 **4-2-3-1** 高位压迫 + 宽度。",
+    "home_extra": "**晋级剧本：** 对德国 1-1 后点球 — Gill 成英雄；Enciso 为反击箭头。Sporting News 预计 **unchanged XI**。HKJC BSD xG **0.35** 反映低位样本；但法国压上时 **HT goal over** 仍可能由客队 early burst 驱动（Away HT 比赛均值 **2.2**）。",
+    "away_extra": "**火力数据：** 对瑞典 Mbappé 双响；Olise 本届助攻王级别。Deschamps 预计沿用对瑞典首发（Maignan; Koundé, Upamecano, Saliba; Hernandez/Digne; Tchouameni/Koné, Rabiot; Olise, Dembélé, Barcola; Mbappé）。BSD xG **1.39** — 模型 **goal HT [1.5] over** μ=1.973 核心逻辑：法国上半场终结能力 + 巴拉圭被迫深度防守时的定位球/反击。"
+  },
+  "FB3019": {
+    "competition": "2026 FIFA World Cup · Round of 16 / 十六強",
+    "venue": "MetLife Stadium, East Rutherford, New Jersey, USA（纽约/新泽西 · 大都会球场）",
+    "kickoff": "2026-07-05 16:00 ET / 21:00 GMT · 香港时间 2026-07-06 05:00",
+    "overview_zh": "**2026 世盃十六強焦点战**——五届冠军 **Brazil（巴西 / Seleção）** 在 **Carlo Ancelotti** 麾下对阵 **Erling Haaland** 领衔的 **Norway（挪威）**。FOX / FWC Times 赛前数据：巴西 **1.7 xG/场、0.5 失球**（本届最佳防守之一）；挪威 **1.9 xG/场、2.0 失球**（Haaland 3.4 xG 领跑）。SI / Squawka 预测 **巴西 2-1**；xGscore 则给出 **Over 2.5 59%**。HKJC 模型保留 **goal HT [1.5] over @ 2.58**（old EV **0.83**）——两队淘汰赛进攻火力 + 挪威零封纪录为 0 的背景。",
+    "overview_en": "Goal.com & SI frame this as **Vinícius Jr vs Haaland** at MetLife — Brazil's volume (14.5 shots/game, 9.4 team xG) vs Norway's elite finishing. Ancelotti vs Solbakken; winner meets England/Mexico in QF.",
+    "path_table": "| 球队 | 晋级路径 | 关键数据 |\n|------|----------|----------|\n| **Brazil** | 3-0 海地/苏格兰 · 1-1 摩洛哥 · **2-1 日本**（Martinelli 95'） | Vinícius **4 球** · 0.5 GA/场 |\n| **Norway** | 小组第二 · **2-1 科特迪瓦** R32 | Haaland **5 球** · 仍未零封 |",
+    "h2h": "历史交锋有限；本场为 **星味最浓 R16 之一**。战术轴：**Ancelotti 控球宽度** vs **Solbakken 快速找 Haaland**；巴西需限制 **Ødegaard** 输送。",
+    "home_extra": "**中文源（直播吧/体坛）：** 巴西淘汰赛经验 + 前场深度（Vini/Cunha/Martinelli）为舆论主轴。**英文源（FOX）：** 14.5 射/场、10.3 创造机会 — **产量型**破挪威。**Paqueta 伤疑**、Raphinha 恢复训练（Goal.com）。BSD xG **1.7** — 低于挪威但防守更稳。",
+    "away_extra": "**英文源（Squawka/SI）：** Haaland **5 球 / 5.06 xG** 为赛事顶级；挪威 **5.5 xG conceded** 为隐患。**中文视角：** 北欧旅行球迷声浪大，但客场对巴西控球处于下风。BSD xG **1.9** — 支持 **BTTS / goal over** 叙事。",
+    "sources_table": "| 来源 | 语言 | 核心观点 | 模型含义 |\n|------|------|----------|----------|\n| FOX / FWC Times | EN | BRA 1.7 xG · NOR 1.9 xG · Haaland 3.4 xG | goal over 中性偏正 |\n| SI / Squawka | EN | Brazil 2-1 · Vini anytime | 支持主胜 + 有球 |\n| xGscore | EN | Over 2.5 **59%** · BTTS 63% | **goal HT/FT over** |\n| Goal.com | EN/ZH | Paqueta 伤 · Raphinha 归队 | 阵容微调 |\n| HKJC model | — | HT over EV **0.83** · FT over **0.37** | **KEEP HT over** |"
+  },
+  "FB3020": {
+    "competition": "2026 FIFA World Cup · Round of 16 / 十六強",
+    "venue": "Estadio Azteca, Mexico City, Mexico（墨西哥城 · 阿兹特克球场 · 海拔 ~2,200m）",
+    "kickoff": "2026-07-05 18:00 CST / 2026-07-06 02:00 GMT · 香港时间 2026-07-06 10:00",
+    "overview_zh": "**东道主 Mexico（墨西哥 / El Tri）** 在 **Azteca** 迎战 **England（英格兰）**——Opta 称墨西哥 **阿兹特克 WC 战绩 8 胜 2 平 0 负**；英格兰高原战绩 **6 胜 1 平 7 负**。Aguirre 球队 **小组赛全胜 + R32 2-0 厄瓜多尔零封**；Tuchel 的英格兰靠 **Kane 5 球**（队史 WC 最佳射手 **13 球**）晋级。**Opta supercomputer：** 英格兰胜 **40.6%**、墨西哥 **31.5%**、平局 **27.9%**。HKJC 模型 **corner FT [8.5] under**（old EV 0.26）——英格兰控球降节奏 vs 墨西哥主场压迫。",
+    "overview_en": "Goal.com & Opta Analyst: altitude (2,200m) favours Mexico's high press; England must **slow tempo** via Bellingham. Rice/James/Quansah fitness doubts. Kane vs Edson Álvarez leadership battle.",
+    "path_table": "| 球队 | 晋级路径 | 关键人物 |\n|------|----------|----------|\n| **Mexico** | 小组全胜 · **2-0 厄瓜多尔** | Lozano / Álvarez · 主场零失球 |\n| **England** | **2-1 DR Congo** 逆转 | **Kane 5 球** · Bellingham |",
+    "h2h": "英格兰对墨西哥 **15 胜 4 平 4 负**（历史）；但 **1966 年来 major tournament 未交手**。Azteca 心理优势在墨西哥一边。",
+    "home_extra": "**中文源：** 东道主 + 高原 = 开场高压。**英文源（Opta）：** 31.5% 胜率的 underdog，但 **44.4% 晋级概率** 不可忽略。BSD xG **1.45** + weather **0.92**（高原略 penalise 总进球）。",
+    "away_extra": "**英文源（Goal.com）：** Tuchel 控节奏、找 Kane 身后空间；**Rice 腿筋**、James/Quansah 存疑。**Opta：** 英格兰 **55.6% 晋级**、夺冠 **8.7%**。BSD xG **1.38**。",
+    "sources_table": "| 来源 | 语言 | 核心观点 | 模型含义 |\n|------|------|----------|----------|\n| Opta Analyst | EN | ENG 40.6% · MEX 31.5% · draw 27.9% | 胶着 · corner under 合理 |\n| Goal.com | EN | 高原 · Rice 存疑 · Kane 5 球 | goal under 中性 |\n| England Football Online | EN | Azteca ENG 2W-1D-3L | 心理劣势 |\n| 中文体育媒体 | ZH | 主场氛围 + 压迫 | corner under（客队控球） |\n| HKJC model | — | corner FT under EV 0.26 | **KEEP under** |"
+  },
+  "FB3021": {
+    "competition": "2026 FIFA World Cup · Quarter-final / 八強",
+    "venue": "AT&T Stadium, Arlington, Texas, USA（达拉斯 · AT&T 球场）",
+    "kickoff": "2026-07-06 15:00 ET / 2026-07-07 03:00 HKT",
+    "overview_zh": "**伊比利亚德比 · 世盃八强**——**Portugal（葡萄牙）** 在 Roberto Martínez 麾下对阵 **Spain（西班牙 / La Roja）**。FOX/FWC Times：**西班牙 1.7 xG/场、0 失球、76% 控球**；葡萄牙 **1.4 xG/场**，靠 **Cristiano Ronaldo（3 球、4.15 xG）** 与 **Bruno Fernandes** 定位球/转换。Opta：**西班牙胜 49.2%**、葡萄牙 25.6%、平局 25.2%。Squawka 倾向 **低比分、西班牙小胜**；但葡萄牙对克罗地亚 94' 绝杀显示淘汰赛韧性。",
+    "overview_en": "Iberian derby QF at Arlington — Spain's Rodri/Pedri control vs Portugal transitions (Ronaldo, Bruno, Leão/Neto). Spain 4 clean sheets; Portugal needed late drama vs Croatia. Central midfield battle decides tempo.",
+    "path_table": "| 球队 | 晋级路径 | 关键人物 |\n|------|----------|----------|\n| **Portugal** | 对克罗地亚 **2-1**（94' Ramos）· 小组赛含 5-0 乌兹别克 | Ronaldo, Bruno, Vitinha, Leão |\n| **Spain** | **3-0 奥地利** R32 · 小组赛全胜零失球 | Oyarzabal (4G), Yamal, Pedri, Rodri |",
+    "h2h": "葡萄牙近 12 次正式赛仅 **1 胜**（2004 欧洲杯 1-0）；西班牙 **4 场零封** 本届。战术：**西班牙 positional play** vs **葡萄牙 set-pieces + transitions**.",
+    "home_extra": "**中文源（直播吧/体坛）：** C罗淘汰赛首球后体能轮换存疑；Martínez 同时换下 Vitinha+Bruno 引争议。**英文源（RotoWire/Squawka）：** 中场对抗是胜负手；葡萄牙定位球（MacPhee）为 x-factor。Web xG **1.4**（FWC Times）。",
+    "away_extra": "**英文源（Opta/FOX）：** xG diff **+1.80/场** 赛事最佳档；Yamal/Oyarzabal 右路制造宽度。**Squawka：** 64% 模型支持西班牙 -111。**Web xG 1.7** — 支持 **Spain control + under 2.5** 叙事，但葡萄牙 BTTS 仍可能。",
+    "sources_table": "| 来源 | 语言 | 核心观点 | 模型含义 |\n|------|------|----------|----------|\n| FWC Times / FOX | EN | POR 1.4 xG · ESP 1.7 xG · ESP 0 GA | goal under / Spain side |\n| Opta | EN | ESP win 49.2% · draw 25.2% | 胶着 · ET 可能 |\n| Squawka | EN | ESP -111 · Oyarzabal scorer · low score | 偏 under |\n| RotoWire | EN | Rodri vs Bruno central battle | HT cagey possible |\n| 中文媒体 | ZH | C罗淘汰赛状态 · 葡西德比 | goal 方向分歧 |"
+  },
+  "FB3022": {
+    "competition": "2026 FIFA World Cup · Quarter-final / 八強",
+    "venue": "Lumen Field, Seattle, USA（西雅图 · 流明球场）",
+    "kickoff": "2026-07-06 18:00 PT / 2026-07-07 09:00 HKT",
+    "overview_zh": "**东道主 USA 对比利时**——Opta 称 **37.2% vs 36.5%** 几乎五五开（含点球路径 26.3%）。**Folarin Balogun（3 球）红牌上诉成功**可出战；Pochettino 预计 **3-5-2** 配 Pulisic 速度反击。比利时 **5.52 xGA** 为剩余球队最高，但 **De Bruyne + Doku** 破线能力顶级（75 次危险传球）。Stadium Rant / Opta：**Over 2.5** 为市场主线。BSD xG：**USA 0.73 / BEL 1.19** → 偏 **under 或客队进球**。",
+    "overview_en": "Seattle QF coin-flip per Opta — USA home press vs Belgium's leaky defence (5.52 xGA) but elite line-breaking. Balogun cleared to play. BSD favours Belgium chance quality slightly.",
+    "path_table": "| 球队 | 晋级路径 | 关键人物 |\n|------|----------|----------|\n| **USA** | 小组 D 第一 · **2-0 波黑** R32 | Balogun, Pulisic, Adams/McKennie |\n| **Belgium** | **3-2 ET 塞内加尔** 大逆转 | De Bruyne, Doku, Lukaku, Tielemans |",
+    "h2h": "比利时近 7 战 **6 胜**（含 2026 年 3 月 **5-2**）；美国仅 **1930 世盃** 赢过。",
+    "home_extra": "**英文源（Goal.com/CBS）：** Balogun 禁赛撤销 · 3-5-2 双前锋 · 主场声浪。**BSD xG 0.73** — 模型可能 **under** 主队终结。**中文源：** 东道主心理 + 高压开场。",
+    "away_extra": "**英文源（Opta Analyst）：** 5.52 xGA 但 75 line-breaking passes；对 Senegal 3.58 xGA 单场上限。**Stadium Rant：** BEL 2.10 np xG/90。**BSD xG 1.19** — **goal over** 与模型 under 冲突需 composite 仲裁。",
+    "sources_table": "| 来源 | 语言 | 核心观点 | 模型含义 |\n|------|------|----------|----------|\n| Opta Analyst | EN | 37.2% vs 36.5% · BEL 5.52 xGA | **goal over** lean |\n| Goal.com / CBS | EN | Balogun cleared · 3-5-2 | USA attack boost |\n| Stadium Rant | EN | Over 2.5 primary play | **goal over** |\n| BSD API | EN | H 0.73 / A 1.19 xG | fav BEL chances · under total? |\n| HKJC model | — | TBD after revise | cross-check corner/goal |"
+  },
+  "FB3023": {
+    "competition": "2026 FIFA World Cup · Quarter-final / 八強",
+    "venue": "Mercedes-Benz Stadium, Atlanta, USA（亚特兰大）",
+    "kickoff": "2026-07-07 ET / 2026-07-08 HKT board",
+    "overview_zh": "**Messi vs Salah · 世盃焦点**——**Argentina（阿根廷）** 在 Scaloni 4-4-2 下对阵 **Egypt（埃及）** 低位防反。Opta **69%** 阿根廷胜；Messi **7 球**、埃及靠 **Salah/Marmoush** 转换 + 点球晋级剧本。Web xG：**阿根廷 ~2.05 / 埃及 ~0.85**（CoachAI/StatFooty）。",
+    "overview_en": "Atlanta marquee — Argentina volume (2.25 xG/game) vs Egypt compact block and transition pace. Winner meets Switzerland/Colombia QF winner.",
+    "path_table": "| 球队 | 晋级路径 | 关键人物 |\n|------|----------|----------|\n| **Argentina** | **3-2 ET Cape Verde** R32 · 小组全胜 | Messi, Alvarez, Enzo, Lautaro |\n| **Egypt** | **1-1 + pens 4-2** vs Australia | Salah, Marmoush, El Shenawy |",
+    "h2h": "2018 友谊赛 2-0 阿根廷；本场 **10 号对决** 为叙事主轴。",
+    "home_extra": "**英文源（Opta/StatFooty）：** 1.73-2.25 xG/场 · 65% 控球 · Abdelmonem 缺阵利好。**中文源：** 阿根廷经验 + 深度占优。Web xG **2.05**。",
+    "away_extra": "**英文源（Al Jazeera/AfricaSoccer）：** 埃及历史首粒 knockout 晋级；Salah 空间被压缩时靠定位球。**中文源：** 非洲独苗之一 · 防反韧性。Web xG **0.85**。",
+    "sources_table": "| 来源 | 语言 | 核心观点 | 模型含义 |\n|------|------|----------|----------|\n| Opta | EN | ARG 69% win · 18.5% ET | 主胜 + 有球 |\n| Football Meister | EN | ARG 2.05 xG · 3-1 lean | **goal over** |\n| Al Jazeera | EN | Messi vs Salah · Egypt counters | BTTS possible |\n| StatFooty | EN | ARG 1.73 xG/game · 0.53 xGA | fav ARG control |\n| 中文媒体 | ZH | 阿根廷热门 · 埃及铁桶 | goal 方向看 early ARG pressure |"
+  },
+  "FB3024": {
+    "competition": "2026 FIFA World Cup · Quarter-final / 八強",
+    "venue": "BC Place, Vancouver, Canada（温哥华）",
+    "kickoff": "2026-07-07 PT / 2026-07-08 HKT board",
+    "overview_zh": "**瑞士 vs 哥伦比亚**——Opta **41.9%** 哥伦比亚胜、**28.2%** 瑞士胜、**29.9%** 平局。哥伦比亚 **1.86 xG/场** 但转化偏低；瑞士 **Xhaka 定位球 + Manzambi** 状态佳，对阿尔及利亚零封。BetMGM 倾向 **BTTS Yes**。Web xG：**COL 1.86 / SUI 1.63**。",
+    "overview_en": "Vancouver tight QF — Colombia chance volume vs Switzerland set-piece efficiency. Cordoba out; Luis Suarez steps in. Winner faces Argentina/Egypt.",
+    "path_table": "| 球队 | 晋级路径 | 关键人物 |\n|------|----------|----------|\n| **Switzerland** | **1-0 Algeria** R32 · 10 场不败 | Xhaka, Manzambi, Akanji |\n| **Colombia** | **1-0 Ghana** R32 · Cordoba 伤缺 | Luis Díaz, James, Luis Suarez |",
+    "h2h": "1994 WC **哥伦比亚 2-0 瑞士**；仅 1 次正式交手。",
+    "home_extra": "**英文源（Sports Mole/HCNTimes）：** Aebischer 存疑；主场 BC Place 无高原。**Web xG 1.63** — 偏 balanced。",
+    "away_extra": "**英文源（BetMGM/StatFooty）：** 20+ shots/3 games · xG/shot 0.08 赛事最低之一；Díaz 破防关键。**Web xG 1.86** — fav COL chances · BTTS。",
+    "sources_table": "| 来源 | 语言 | 核心观点 | 模型含义 |\n|------|------|----------|----------|\n| Opta | EN | COL 41.9% · draw 29.9% | 胶着 · BTTS |\n| BetMGM | EN | SUI defence suspect · BTTS Yes | **goal over** |\n| StatFooty | EN | COL 1.86 vs SUI 1.63 xG | COL edge |\n| Sports Mole | EN | Preview 1-2 COL | away lean |\n| 中文源 | ZH | 哥伦比亚火力 · 瑞士稳 | corner/goal 分歧 |"
+  }
+}

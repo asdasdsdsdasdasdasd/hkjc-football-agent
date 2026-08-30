@@ -1,37 +1,8 @@
 # HKJC Football Scrape Pipeline
 
-Also includes the **v3.2 live betting book** (HT goal unders + weekday FT corner unders).
+**Windows deploy:** see [WINDOWS.md](WINDOWS.md) (WSL2 recommended, or native PowerShell + CUDA `llama-server.exe`).
 
-## Run v3.2 (live book)
-
-```bash
-python3 -m pip install -r requirements.txt
-npm install
-python3 -m playwright install chromium
-
-# 1. Snapshot tomorrow's HKJC odds
-node pipeline/snapshot_hkjc_odds_browser.js --all --lang ch --date YYYY-MM-DD --days 1 \
-  --out output/odds_snapshots/hkjc-browser-ch-all-YYYY-MM-DD.json
-
-# 2. Need historical records in output/records-*.jsonl (or output/records.json)
-#    so Poisson / form have training history.
-
-# 3. Score + cap
-PYTHONPATH=. python3 predict_v32.py --date YYYY-MM-DD \
-  --snapshot output/odds_snapshots/hkjc-browser-ch-all-YYYY-MM-DD.json
-```
-
-v3.2 live cut (`cap_live_v31`):
-
-- markets: `goal_ou_ht` under, or weekday `corner_ou_ft` under with line ≥ 10.5
-- odds **1.55–1.80**, composite **0.10–0.50**, max 1 bet per match
-- Saturday/Sunday: no corner FT unders
-- composite is **market-aware** (`MARKET_AWARE_COMPOSITE` in `pipeline/revise_recommendations.py`): EV + disagreement with the market, not “form+xG all agree”
-
----
-
-
-Deterministic Python + Playwright pipeline to discover HKJC football match results, scrape **corner counts** (詳細賽果) and **closing odds** (最後賠率), with SQLite checkpoints and resumable parallel workers.
+Deterministic Python + Playwright pipeline to discover HKJC football match results, scrape **corner counts** (詳細賽果) and **closing odds** (最後賠率), with SQLite checkpoints and resumable parallel workers. Plus a live desk: Dixon-Coles model, odds tracker, lineup/injury intel, local Qwen verdicts, dashboard on port 8765.
 
 Target site: [HKJC football results](https://bet.hkjc.com/ch/football/results#search)
 

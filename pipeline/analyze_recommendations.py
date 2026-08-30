@@ -70,12 +70,24 @@ def _revised_side_ev(
         return None, None, None
     stat = "corners" if "corner" in market else "goals"
     period = "half_time" if market.endswith("_ht") else "full_time"
-    state = fit_poisson_total(train, stat=stat, period=period)
-    if state is None:
-        return None, None, None
     team_role = team_role_from_market(market)
-    p_over = predict_side_probability(state, match, line_raw=row["line"], side="over", team_role=team_role)
-    p_under = predict_side_probability(state, match, line_raw=row["line"], side="under", team_role=team_role)
+    dc_state = None
+    try:
+        from pipeline.revise_recommendations import USE_DC_MODEL
+        if USE_DC_MODEL:
+            from pipeline.betting.models.dixon_coles import fit_dc_cached, match_ref_date, predict_side_probability_dc
+            dc_state = fit_dc_cached(train, stat=stat, period=period, ref_date=match_ref_date(match))
+    except Exception:
+        dc_state = None
+    if dc_state is not None:
+        p_over = predict_side_probability_dc(dc_state, match, line_raw=row["line"], side="over", team_role=team_role)
+        p_under = predict_side_probability_dc(dc_state, match, line_raw=row["line"], side="under", team_role=team_role)
+    else:
+        state = fit_poisson_total(train, stat=stat, period=period)
+        if state is None:
+            return None, None, None
+        p_over = predict_side_probability(state, match, line_raw=row["line"], side="over", team_role=team_role)
+        p_under = predict_side_probability(state, match, line_raw=row["line"], side="under", team_role=team_role)
     if p_over >= p_under:
         side = "over"
         p_model = p_over

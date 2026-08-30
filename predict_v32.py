@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate the v3.2 live book for one calendar day.
+"""Generate the v3.2/v3.3 live books for one calendar day.
 
 v3.2 live cut (pipeline.eval_recent_models.cap_live_v31):
   - HT goal under, or weekday FT corner under (line >= 10.5)
@@ -7,6 +7,12 @@ v3.2 live cut (pipeline.eval_recent_models.cap_live_v31):
   - max 1 bet / match
   - Saturday/Sunday: no corner FT unders
   - composite is market-aware (revise_recommendations.MARKET_AWARE_COMPOSITE)
+
+v3.3 live cut (cap_live_v33), added 2026-08-29 after review showed HT unders
+are -10.6% ROI in every band while corner FT unders are +21.6%:
+  - weekday FT corner under only (line >= 10.5), odds 1.55–1.80, max 1/match
+  - two books emitted: comp 0.30–0.50 (v33_c30) and comp 0.20–0.50 (v33_c20)
+  - HT goal unders from the v3.2 cut are written to v33_paper_ht (track only)
 
 Example:
   PYTHONPATH=. python3 predict_v32.py --date 2026-08-24 \\
@@ -87,7 +93,7 @@ def main() -> int:
     global ISO, SNAPSHOT
 
     from pipeline.analyze_recommendations import _fmt_pick
-    from pipeline.eval_recent_models import cap_live_v31
+    from pipeline.eval_recent_models import cap_live_v31, cap_live_v33
 
     ap = argparse.ArgumentParser(description="v3.2 live book for one day")
     ap.add_argument("--date", required=True, help="YYYY-MM-DD")
@@ -120,16 +126,33 @@ def main() -> int:
         r["pick"] = r.get("pick") or _fmt_pick(r)
 
     live = sorted(cap_live_v31(revised), key=lambda r: -float(r.get("composite_score") or 0))
+    v33_c30 = sorted(cap_live_v33(revised, comp_min=0.30), key=lambda r: -float(r.get("composite_score") or 0))
+    v33_c20 = sorted(cap_live_v33(revised, comp_min=0.20), key=lambda r: -float(r.get("composite_score") or 0))
+    paper_ht = [r for r in live if str(r.get("market") or "") == "goal_ou_ht"]
     args.out_dir.mkdir(parents=True, exist_ok=True)
     tag = ISO.replace("-", "")
     out = args.out_dir / f"tomorrow_{tag}_v32_live.json"
     out.write_text(json.dumps(live, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    out_c30 = args.out_dir / f"tomorrow_{tag}_v33_c30_live.json"
+    out_c30.write_text(json.dumps(v33_c30, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    out_c20 = args.out_dir / f"tomorrow_{tag}_v33_c20_live.json"
+    out_c20.write_text(json.dumps(v33_c20, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    out_paper = args.out_dir / f"tomorrow_{tag}_v33_paper_ht.json"
+    out_paper.write_text(json.dumps(paper_ht, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(f"\nv3.2 LIVE ({len(live)}) -> {out}")
     for r in live:
         print(
             f"LIVE {r['match_id']} {r.get('teams')} | {r.get('pick')} | "
             f"odds={r.get('odds')} comp={r.get('composite_score')}"
         )
+    for name, rows in (("v3.3 c30", v33_c30), ("v3.3 c20", v33_c20)):
+        print(f"\n{name} LIVE ({len(rows)})")
+        for r in rows:
+            print(
+                f"LIVE {r['match_id']} {r.get('teams')} | {r.get('pick')} | "
+                f"odds={r.get('odds')} comp={r.get('composite_score')}"
+            )
+    print(f"\nv3.3 PAPER HT unders ({len(paper_ht)}) -> {out_paper}")
     return 0
 
 

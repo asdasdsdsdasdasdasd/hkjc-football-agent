@@ -152,6 +152,50 @@ def cap_live_v31(revised: list[dict[str, Any]]) -> list[dict[str, Any]]:
     return capped
 
 
+def cap_live_v33(
+    revised: list[dict[str, Any]],
+    *,
+    comp_min: float = 0.30,
+    comp_max: float = 0.50,
+) -> list[dict[str, Any]]:
+    """v3.3 live cut: weekday FT corner under only (line>=10.5).
+
+    Odds 1.55–1.80, composite comp_min–comp_max, max 1 bet/match,
+    no Saturday/Sunday.  HT goal unders are dropped to PAPER.
+
+    2026-08-29 review (114 settled: 90 closing replay 07-24..08-20 + 24 live
+    08-22..28): HT goal unders -10.6% ROI, negative in every odds band and
+    every composite band — no rescuable sub-cut.  Corner FT unders +21.6%,
+    driven by comp>=0.30 (12-1, +51.6%); comp 0.10-0.29 was -6.3%.
+    """
+    live: list[dict[str, Any]] = []
+    for row in revised:
+        if row.get("bet") not in ("BET", "BET*"):
+            continue
+        if str(row.get("market") or "") != "corner_ou_ft" or row.get("side") != "under":
+            continue
+        odds = float(row.get("odds") or 0)
+        if not (1.55 <= odds <= 1.80):
+            continue
+        comp = float(row.get("composite_score") or 0)
+        if not (comp_min <= comp <= comp_max):
+            continue
+        if _line_float(str(row.get("line") or "")) < 10.5:
+            continue
+        weekday = _iso_weekday(row.get("date"))
+        if weekday in (5, 6):  # Saturday / Sunday
+            continue
+        live.append(row)
+    by_match: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    for row in live:
+        by_match[row["match_id"]].append(row)
+    capped: list[dict[str, Any]] = []
+    for rows in by_match.values():
+        rows.sort(key=lambda x: -float(x.get("composite_score") or 0))
+        capped.extend(rows[:1])
+    return capped
+
+
 def settle_bets(bets: list[dict[str, Any]], records_by_id: dict[str, dict[str, Any]], policy: str, iso: str) -> list[dict[str, Any]]:
     rows = []
     for bet in bets:
@@ -256,6 +300,9 @@ def run_closing_odds_day(
             row["pick"] = row.get("pick") or _fmt_pick(row)
         v31 = cap_live_v31(revised_v31)
         out["v3.1"] = settle_bets(v31, records_by_id, "v3.1-closing", iso)
+        if "v3.3" in policies:
+            out["v3.3_c30"] = settle_bets(cap_live_v33(revised_v31, comp_min=0.30), records_by_id, "v3.3-c30-closing", iso)
+            out["v3.3_c20"] = settle_bets(cap_live_v33(revised_v31, comp_min=0.20), records_by_id, "v3.3-c20-closing", iso)
 
     if "v4" in policies:
         revised_v4, _changes = revise(
