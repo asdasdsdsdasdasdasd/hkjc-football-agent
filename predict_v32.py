@@ -131,6 +131,9 @@ def main() -> int:
     paper_ht = [r for r in live if str(r.get("market") or "") == "goal_ou_ht"]
     args.out_dir.mkdir(parents=True, exist_ok=True)
     tag = ISO.replace("-", "")
+    all_out = args.out_dir / f"tomorrow_{tag}_v32_all.json"
+    all_out.write_text(json.dumps(revised, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    print(f"all revised ({len(revised)}) -> {all_out}")
     out = args.out_dir / f"tomorrow_{tag}_v32_live.json"
     out.write_text(json.dumps(live, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     out_c30 = args.out_dir / f"tomorrow_{tag}_v33_c30_live.json"
