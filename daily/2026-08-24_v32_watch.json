@@ -1,0 +1,67 @@
+[
+  {
+    "match_id": "FB3503",
+    "teams": "杜塞爾多夫 對 弗賴堡",
+    "competition": "德國盃",
+    "kick_off_hkt": "2026-08-24T00:00:00+08:00",
+    "pick": "goal HT [1.5] under @ 1.74",
+    "odds": 1.74,
+    "composite_score": 1.1019,
+    "old_p": 0.9689,
+    "old_ev": 0.6859,
+    "revision_reason": "recent goals avg 0.6 — low-scoring trend; policy=v3.1",
+    "live_reject": "composite_above_0.50"
+  },
+  {
+    "match_id": "FB3413",
+    "teams": "艾爾切 對 巴塞隆拿",
+    "competition": "西班牙甲組聯賽",
+    "kick_off_hkt": "2026-08-24T03:30:00+08:00",
+    "pick": "goal HT [1.5] under @ 1.65",
+    "odds": 1.65,
+    "composite_score": 0.968,
+    "old_p": 0.9539,
+    "old_ev": 0.5739,
+    "revision_reason": "recent goals avg 0.6 — low-scoring trend; form supports side; policy=v3.1",
+    "live_reject": "composite_above_0.50"
+  },
+  {
+    "match_id": "FB3672",
+    "teams": "海灣FC女足 對 侯斯頓衝鋒女足",
+    "competition": "女子美國職業聯賽",
+    "kick_off_hkt": "2026-08-24T06:00:00+08:00",
+    "pick": "goal HT [1.5] under @ 1.6",
+    "odds": 1.6,
+    "composite_score": 0.9049,
+    "old_p": 0.9613,
+    "old_ev": 0.5381,
+    "revision_reason": "recent goals avg 0.2 — low-scoring trend; form supports side; policy=v3.1",
+    "live_reject": "composite_above_0.50"
+  },
+  {
+    "match_id": "FB3670",
+    "teams": "帕丘卡女足 對 瓜達拉哈拉女足",
+    "competition": "女子墨西哥超級聯賽",
+    "kick_off_hkt": "2026-08-24T06:00:00+08:00",
+    "pick": "goal HT [1.5] under @ 1.61",
+    "odds": 1.61,
+    "composite_score": 0.7293,
+    "old_p": 0.8818,
+    "old_ev": 0.4197,
+    "revision_reason": "recent goals avg 0.4 — low-scoring trend; form supports side; policy=v3.1",
+    "live_reject": "composite_above_0.50"
+  },
+  {
+    "match_id": "FB3615",
+    "teams": "域堡 對 哥本哈根",
+    "competition": "丹麥超級聯賽",
+    "kick_off_hkt": "2026-08-24T00:00:00+08:00",
+    "pick": "goal HT [1.5] under @ 1.57",
+    "odds": 1.57,
+    "composite_score": 0.5584,
+    "old_p": 0.8581,
+    "old_ev": 0.3472,
+    "revision_reason": "recent goals avg 1.0 — low-scoring trend; policy=v3.1",
+    "live_reject": "composite_above_0.50"
+  }
+]
