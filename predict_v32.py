@@ -35,6 +35,9 @@ ISO = ""
 SNAPSHOT = Path()
 STYLES = ROOT / "output" / "play_styles_web_20260708.json"
 OUT_DIR = ROOT / "output"
+_TARGETS: list[dict] | None = None
+_HISTORY: list[dict] | None = None
+_STYLES: dict | None = None
 
 
 def _parse_day(m: dict) -> date | None:
@@ -50,6 +53,9 @@ def _parse_day(m: dict) -> date | None:
 
 
 def _targets() -> list[dict]:
+    global _TARGETS
+    if _TARGETS is not None:
+        return _TARGETS
     from pipeline.betting.recommend import load_target_matches
 
     td = date.fromisoformat(ISO)
@@ -58,21 +64,39 @@ def _targets() -> list[dict]:
     if db.exists():
         kwargs["db_path"] = db
     all_m = load_target_matches(SNAPSHOT, **kwargs)
-    return [m for m in all_m if _parse_day(m) == td]
+    _TARGETS = [m for m in all_m if _parse_day(m) == td]
+    return _TARGETS
+
+
+def _history_before() -> list[dict]:
+    global _HISTORY
+    if _HISTORY is not None:
+        return _HISTORY
+    from pipeline.betting.load import load_matches, parse_match_date
+
+    cutoff = date.fromisoformat(ISO)
+    _HISTORY = [m for m in load_matches() if parse_match_date(m["date"]) < cutoff]
+    return _HISTORY
+
+
+def _play_styles() -> dict:
+    global _STYLES
+    if _STYLES is not None:
+        return _STYLES
+    _STYLES = json.loads(STYLES.read_text(encoding="utf-8")) if STYLES.exists() else {}
+    return _STYLES
 
 
 def _revise_one(match_id: str) -> list[dict]:
     from pipeline.analyze_recommendations import _fmt_pick
-    from pipeline.betting.load import load_matches, parse_match_date
     from pipeline.evaluate_past_days_v3 import build_bet_only
     from pipeline.revise_recommendations import revise
 
     match = next((m for m in _targets() if m.get("match_id") == match_id), None)
     if match is None:
         return []
-    cutoff = date.fromisoformat(ISO)
-    history = [m for m in load_matches() if parse_match_date(m["date"]) < cutoff]
-    styles = json.loads(STYLES.read_text(encoding="utf-8")) if STYLES.exists() else {}
+    history = _history_before()
+    styles = _play_styles()
     bet_only = build_bet_only([match], history)
     revised, _ = revise(
         original_bets=bet_only,
