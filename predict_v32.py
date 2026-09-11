@@ -125,12 +125,16 @@ def main() -> int:
     for r in revised:
         r["pick"] = r.get("pick") or _fmt_pick(r)
 
+    args.out_dir.mkdir(parents=True, exist_ok=True)
+    tag = ISO.replace("-", "")
+    all_out = args.out_dir / f"tomorrow_{tag}_v32_all_revised.json"
+    all_out.write_text(json.dumps(revised, ensure_ascii=False) + "\n", encoding="utf-8")
+    print(f"all revised ({len(revised)}) -> {all_out}")
+
     live = sorted(cap_live_v31(revised), key=lambda r: -float(r.get("composite_score") or 0))
     v33_c30 = sorted(cap_live_v33(revised, comp_min=0.30), key=lambda r: -float(r.get("composite_score") or 0))
     v33_c20 = sorted(cap_live_v33(revised, comp_min=0.20), key=lambda r: -float(r.get("composite_score") or 0))
     paper_ht = [r for r in live if str(r.get("market") or "") == "goal_ou_ht"]
-    args.out_dir.mkdir(parents=True, exist_ok=True)
-    tag = ISO.replace("-", "")
     out = args.out_dir / f"tomorrow_{tag}_v32_live.json"
     out.write_text(json.dumps(live, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     out_c30 = args.out_dir / f"tomorrow_{tag}_v33_c30_live.json"
